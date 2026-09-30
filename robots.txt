@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://a50.ai2eo.com/sitemap.xml
