@@ -307,7 +307,7 @@
         var pdf = document.createElement("a");
         pdf.className = "btn btn-primary";
         pdf.href = API_BASE + "/api/v1/scan/" + encodeURIComponent(id) + "/report.pdf?token=" + encodeURIComponent(token);
-        pdf.textContent = "Download the one-page PDF report (paid unit: EUR 99)";
+        pdf.textContent = "Download the one-page PDF report (€99)";
         var wrap = el("p", null, "");
         wrap.appendChild(pdf);
         container.appendChild(wrap);
