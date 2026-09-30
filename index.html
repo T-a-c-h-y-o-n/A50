@@ -28,7 +28,7 @@
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web",
     "description": "Deterministic scanner that checks a website for EU AI Act 50 transparency obligations: conversational AI, AI-generated media, biometric tools and whether visitors are told about them.",
-    "offers": { "@type": "Offer", "price": "99", "priceCurrency": "EUR", "description": "Single-site scan with one-page PDF report" },
+    "offers": { "@type": "Offer", "price": "49", "priceCurrency": "EUR", "description": "Single-site scan with one-page PDF report (early-access price, regular €99)" },
     "url": "https://a50.ai2eo.com/"
   }
   </script>
@@ -37,7 +37,10 @@
 <a class="skip-link" href="#main">Skip to content</a>
 
 <div class="announce" id="top">
-  <p><strong>AI Act 50 applies from 2 August 2026.</strong> Check whether your site tells visitors about the AI systems you use. <a href="#scan">Run free preview scan →</a></p>
+  <div class="ticker-track">
+    <p><strong>Early access: full report €49</strong>&nbsp;instead of €99.&nbsp;Check whether your site tells visitors about the AI systems you use.&nbsp;<a href="#scan">Run free preview scan →</a></p>
+    <p aria-hidden="true"><strong>Early access: full report €49</strong>&nbsp;instead of €99.&nbsp;Check whether your site tells visitors about the AI systems you use.&nbsp;<a href="#scan" tabindex="-1">Run free preview scan →</a></p>
+  </div>
 </div>
 
 <header class="nav">
@@ -61,7 +64,7 @@
       <div class="hero-copy">
         <p class="eyebrow">EU AI Act · AI Act 50 transparency · applies from 2 August 2026</p>
         <h1>Is your site missing a required AI disclosure?</h1>
-        <p class="lede">Paste your site address. We fetch your public pages, detect conversational AI, AI-generated media and biometric tools, and check whether visitors are told about them. The free preview shows the summary on this page.</p>
+        <p class="lede">Paste your site address. We fetch your public pages, detect conversational AI, AI-generated media and biometric tools, and check whether visitors are told about them. The free preview is emailed to you as a short summary.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#scan">Run free preview scan</a>
           <a class="btn btn-ghost" href="#sample">See a sample result</a>
@@ -150,9 +153,9 @@
       <ol class="steps">
         <li class="step card">
           <span class="step-num mono">01</span>
-          <h3>Submit your site address</h3>
-          <p>One URL. We fetch your home page plus up to 4 high-signal pages: /privacy, /legal, /terms, /about, one blog sample, and pages implying AI features.</p>
-          <p class="trust-note">robots.txt is respected. Private and internal addresses are rejected before any fetch.</p>
+          <h3>Pay once, then submit your site</h3>
+          <p>€49 covers one site during early access (regular €99). After payment you get a personal link - open it and enter the site address you want checked. We fetch your homepage plus up to 4 high-signal pages: /privacy, /legal, /terms, /about, one blog sample, and pages implying AI features.</p>
+          <p class="trust-note">robots.txt is respected. Private and internal addresses are rejected before any fetch. The free preview below is free - we only need your email to send the results.</p>
         </li>
         <li class="step card">
           <span class="step-num mono">02</span>
@@ -257,10 +260,10 @@
   <section class="section" id="pricing">
     <div class="wrap">
       <h2>Simple pricing</h2>
-      <p class="section-lede">The scan is free to preview. The report is the product.</p>
+      <p class="section-lede">The scan is free to preview. The report is the product. Early-access price: €49 (regular €99).</p>
       <div class="two-col">
         <div class="card">
-          <h3>€99 - single-site scan</h3>
+          <h3>€49 <s class="old-price">€99</s> - single-site scan</h3>
           <ul class="list-check">
             <li>One-page PDF report, print-clean and client-ready</li>
             <li>Every finding with evidence: page, selector, matched string, artifact hash</li>
@@ -268,13 +271,13 @@
             <li>Sources with URLs and review dates</li>
             <li>NOT_VERIFIABLE and PARTIAL states rendered visibly</li>
           </ul>
-          <p class="fineprint">One site per purchase. Re-scan after fixes is a new scan.</p>
+          <p class="fineprint">One site per purchase. Re-scan after fixes is a new scan. Early-access price - regular price €99.</p>
         </div>
         <div class="card">
           <h3>Buy the report</h3>
           <p>After payment you get a link to run the scan and download the one-page PDF report.</p>
           <div class="cta-row">
-            <a class="btn btn-primary" href="https://gumroad.com/l/a50-scan" target="_blank" rel="noopener nofollow">Get the report</a>
+            <a class="btn btn-primary" href="https://tachyon80.gumroad.com/l/foczbw" target="_blank" rel="noopener nofollow">Get the report</a>
           </div>
           <p class="fineprint">Multi-site scans, agency white-label and re-scan subscriptions are on the roadmap. Leave your email in the update form below and we will tell you when they open.</p>
         </div>
@@ -329,13 +332,19 @@
   <section class="section scan-section" id="scan">
     <div class="wrap narrow">
       <h2>Run free preview scan</h2>
-      <p class="section-lede">Paste your site address. The preview shows the summary on this page. The full one-page PDF report is the paid unit: €99 per site.</p>
+      <p class="section-lede">Paste your site address and email. The preview is free - we run the scan and email you a short summary. The full one-page PDF report is the paid unit: €49 per site during early access (regular €99).</p>
 
       <form class="card form" id="scan-form" novalidate>
         <div class="field">
           <label for="scan-url">Site address</label>
           <p class="hint" id="url-hint">One URL, e.g. <span class="mono">https://example.com</span></p>
           <input id="scan-url" name="url" type="url" inputmode="url" placeholder="https://example.com" required autocomplete="url" aria-describedby="url-hint">
+        </div>
+
+        <div class="field">
+          <label for="scan-email">Email</label>
+          <p class="hint" id="email-hint">We send your preview results here. Nothing else.</p>
+          <input id="scan-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@company.com" required aria-describedby="email-hint">
         </div>
 
         <p class="form-error" id="scan-error" role="alert" hidden></p>
@@ -345,7 +354,7 @@
 
         <ul class="micro micro-center">
           <li>No credit card</li>
-          <li>Results in about a minute</li>
+          <li>Results by email</li>
           <li>We don't publish or share your URL</li>
         </ul>
 
@@ -354,10 +363,10 @@
           <div class="table-scroll">
             <table class="benefits benefits-compare">
               <thead>
-                <tr><th scope="col"></th><th scope="col">Free preview</th><th scope="col">Full report (€99)</th></tr>
+                <tr><th scope="col"></th><th scope="col">Free preview</th><th scope="col">Full report (€49)</th></tr>
               </thead>
               <tbody>
-                <tr><td>Where you see it</td><td>On this page</td><td class="check">One-page PDF, print-clean</td></tr>
+                <tr><td>Where you see it</td><td>Emailed to you</td><td class="check">One-page PDF, print-clean</td></tr>
                 <tr><td>Findings shown</td><td>First 8, summary table</td><td class="check">All findings, sorted from critical to low</td></tr>
                 <tr><td>Evidence per finding</td><td>No</td><td class="check">Page URL, selector, matched string, artifact hash</td></tr>
                 <tr><td>Remediation steps</td><td>No</td><td class="check">Yes, per finding</td></tr>
@@ -426,8 +435,8 @@
       </details>
 
       <details class="faq">
-        <summary>What do I get for €99?</summary>
-        <p>A single-site scan with the one-page PDF report: findings sorted from critical to low, each with evidence and remediation, plus the sources and their review dates.</p>
+        <summary>What do I pay during early access?</summary>
+        <p>€49 for a single-site scan with the one-page PDF report: findings sorted from critical to low, each with evidence and remediation, plus the sources and their review dates. Regular price after early access: €99.</p>
       </details>
 
       <details class="faq">
@@ -442,7 +451,7 @@
 
       <details class="faq">
         <summary>Do I have to pay to see a preview?</summary>
-        <p>No. The free preview shows the summary on this page. The full one-page PDF report is the paid unit.</p>
+        <p>No. The free preview is free - you get a short summary by email. The full one-page PDF report is the paid unit.</p>
       </details>
     </div>
   </section>
@@ -450,7 +459,7 @@
   <section class="final-cta">
     <div class="wrap narrow">
       <h2>Run the scan once. Decide afterwards.</h2>
-      <p>It takes a minute, costs nothing, and you keep the result.</p>
+      <p>One URL, costs nothing, and the results land in your inbox.</p>
       <div class="cta-row cta-center">
         <a class="btn btn-primary" href="#scan">Run free preview scan</a>
         <a class="btn btn-ghost" href="#sample">See a sample result first</a>

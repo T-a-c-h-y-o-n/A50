@@ -109,9 +109,14 @@ li { margin-bottom: 0.45rem; }
 /* --- announcement + nav --- */
 .announce {
   background: var(--dark-announce, #111817); color: #eef3ef;
-  font-size: 0.9rem; text-align: center; padding: 6px 20px;
+  font-size: 0.9rem; text-align: center; padding: 6px 0;
+  overflow: hidden; white-space: nowrap;
 }
 .announce p { margin: 0; }
+.ticker-track { display: inline-flex; width: max-content; animation: ticker-scroll 28s linear infinite; }
+.announce:hover .ticker-track, .announce:focus-within .ticker-track { animation-play-state: paused; }
+.ticker-track p { padding-right: 3rem; font-family: var(--font-mono); font-size: 0.82rem; letter-spacing: 0.02em; }
+@keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .announce strong { color: #fff; }
 .announce a { color: #cfe6da; }
 
@@ -123,7 +128,7 @@ li { margin-bottom: 0.45rem; }
   box-shadow: 0 2px 12px rgba(17, 24, 23, 0.1);
 }
 .nav-inner { display: flex; align-items: center; gap: 20px; min-height: 64px; }
-.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 400; font-size: 2.5rem; font-family: "Special Elite", var(--font-display); color: var(--ink); text-decoration: none; margin-left: auto; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 400; font-size: 2.5rem; font-family: "Special Elite", var(--font-display); color: var(--ink); text-decoration: none; margin-left: auto; margin-right: 32px; }
 .brand-mark { width: 30px; height: 30px; color: var(--accent); flex: 0 0 auto; }
 .nav-links { display: flex; gap: 20px; }
 .nav-links a { color: #2b3531; text-decoration: none; font-size: 0.94rem; font-weight: 500; }
@@ -243,6 +248,7 @@ li { margin-bottom: 0.45rem; }
 .alert-body dd { margin: 0; font-size: 0.92rem; overflow-wrap: anywhere; }
 .next-step { margin: 14px 0 0; font-size: 0.92rem; background: var(--surface-strong); border-radius: var(--radius-sm); padding: 10px 12px; }
 .fineprint { font-size: 0.85rem; color: var(--muted); margin-top: 18px; }
+.old-price { color: var(--muted); font-weight: 400; }
 
 /* --- benefits table --- */
 .table-scroll { overflow-x: auto; }
@@ -259,6 +265,9 @@ li { margin-bottom: 0.45rem; }
 
 /* --- form --- */
 .scan-section { background: var(--accent-soft); border-block: 1px solid var(--line); }
+#scan .section-lede,
+#sample .section-lede { max-width: none; }
+#questions .faq p { max-width: none; }
 .form { display: grid; gap: 18px; margin-top: 22px; }
 .field { display: grid; gap: 6px; }
 .field label { font-weight: 600; }
@@ -386,5 +395,6 @@ section[id], footer[id] { scroll-margin-top: 76px; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  .ticker-track { animation: none !important; transform: none; width: auto; white-space: normal; }
   .reveal { opacity: 1; transform: none; }
 }

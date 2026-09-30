@@ -119,6 +119,7 @@
     var form = document.getElementById("scan-form");
     if (!form) return;
     var urlInput = document.getElementById("scan-url");
+    var emailInput = document.getElementById("scan-email");
     var submit = document.getElementById("scan-submit");
     var errorBox = document.getElementById("scan-error");
     var okBox = document.getElementById("scan-ok");
@@ -138,10 +139,22 @@
       }
       urlInput.removeAttribute("aria-invalid");
 
+      var email = (emailInput && emailInput.value || "").trim();
+      if (!email || email.indexOf("@") < 1) {
+        if (emailInput) {
+          emailInput.setAttribute("aria-invalid", "true");
+          emailInput.focus();
+        }
+        errorBox.textContent = "Enter your email so we can send the results.";
+        errorBox.hidden = false;
+        return;
+      }
+      if (emailInput) emailInput.removeAttribute("aria-invalid");
+
       submit.disabled = true;
       submit.textContent = "Scanning…";
 
-      var payload = { url: url, email: "", source: "landing" };
+      var payload = { url: url, email: email, source: "landing" };
 
       fetch(API_BASE + "/api/v1/scan", {
         method: "POST",
@@ -307,7 +320,7 @@
         var pdf = document.createElement("a");
         pdf.className = "btn btn-primary";
         pdf.href = API_BASE + "/api/v1/scan/" + encodeURIComponent(id) + "/report.pdf?token=" + encodeURIComponent(token);
-        pdf.textContent = "Download the one-page PDF report (€99)";
+        pdf.textContent = "Download the one-page PDF report (€49)";
         var wrap = el("p", null, "");
         wrap.appendChild(pdf);
         container.appendChild(wrap);
