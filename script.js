@@ -74,14 +74,16 @@
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  function postFormspreeFallback(payload) {
+  function postFormspreeFallback(payload, subject, message) {
     return fetch(FORMSPREE_SCAN, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify({
         email: payload.email || "",
-        message: "A50 scan request - URL: " + payload.url,
-        source: "a50-scan-form"
+        _subject: subject,
+        _gotcha: payload.gotcha || "",
+        message: message,
+        source: payload.source || ""
       })
     }).then(function (response) {
       if (!response.ok) throw new Error("fallback failed (" + response.status + ")");
@@ -89,7 +91,7 @@
     });
   }
 
-  function nativeFormspreeSubmit(payload) {
+  function nativeFormspreeSubmit(payload, subject, message) {
     var form = document.createElement("form");
     form.method = "POST";
     form.action = FORMSPREE_SCAN;
@@ -97,10 +99,14 @@
     form.style.display = "none";
     var body = {
       email: payload.email || "",
-      message: "A50 scan request - URL: " + payload.url,
-      source: "a50-scan-form"
+      _subject: subject,
+      _gotcha: payload.gotcha || "",
+      message: message,
+      source: payload.source || ""
     };
-    [["email", body.email],
+    [["_subject", body._subject],
+     ["email", body.email],
+     ["_gotcha", body._gotcha],
      ["message", body.message],
      ["source", body.source]]
       .forEach(function (pair) {
@@ -154,7 +160,11 @@
       submit.disabled = true;
       submit.textContent = "Scanning…";
 
-      var payload = { url: url, email: email, source: "landing" };
+      var payload = { url: url, email: email, source: "landing-scan" };
+      var trap = document.getElementById("scan-company");
+      payload.gotcha = (trap && trap.value || "").trim();
+      var scanSubject = "A50 scan request: " + url;
+      var scanMessage = "New free-preview scan request\nURL: " + url + "\nEmail: " + email;
 
       fetch(API_BASE + "/api/v1/scan", {
         method: "POST",
@@ -177,12 +187,12 @@
           showResultBox(data);
         })
         .catch(function (err) {
-          postFormspreeFallback(payload).then(function () {
+          postFormspreeFallback(payload, scanSubject, scanMessage).then(function () {
             okBox.textContent = "Your request was sent - we'll run the scan and email you the result.";
             okBox.hidden = false;
           }, function () {
             try {
-              nativeFormspreeSubmit(payload);
+              nativeFormspreeSubmit(payload, scanSubject, scanMessage);
               okBox.textContent = "Your request was sent - we'll run the scan and email you the result.";
               okBox.hidden = false;
             } catch (e) {
@@ -239,13 +249,18 @@
           form.reset();
         })
         .catch(function () {
-          postFormspreeFallback({ email: email, url: "", source: "a50-interest" }).then(function () {
+          var subPayload = { email: email, url: "", source: "landing-interest" };
+          var subTrap = document.getElementById("interest-company");
+          subPayload.gotcha = (subTrap && subTrap.value || "").trim();
+          var subSubject = "A50 rule-change alert signup: " + email;
+          var subMessage = "New rule-change alert signup\nEmail: " + email;
+          postFormspreeFallback(subPayload, subSubject, subMessage).then(function () {
             okBox.textContent = "Saved. We will email you when a rule changes.";
             okBox.hidden = false;
             form.reset();
           }, function () {
             try {
-              nativeFormspreeSubmit({ email: email, url: "", source: "a50-interest" });
+              nativeFormspreeSubmit(subPayload, subSubject, subMessage);
               okBox.textContent = "Saved. We will email you when a rule changes.";
               okBox.hidden = false;
               form.reset();

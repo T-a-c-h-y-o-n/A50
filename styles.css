@@ -279,6 +279,7 @@ input[type="url"], input[type="email"] {
 }
 input[type="url"]:focus, input[type="email"]:focus { border-color: var(--accent); outline: 2px solid var(--accent-soft); }
 input[aria-invalid="true"] { border-color: var(--risk-critical); }
+.hp-field { position: absolute !important; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 .form-error { color: var(--risk-critical); font-weight: 500; margin: 0; }
 .form-ok { color: #16a34a; font-weight: 600; margin: 0; }
 .form-inline { grid-template-columns: 1fr auto; align-items: end; }

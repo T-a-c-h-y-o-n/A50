@@ -347,6 +347,11 @@
           <input id="scan-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@company.com" required aria-describedby="email-hint">
         </div>
 
+        <div class="hp-field" aria-hidden="true">
+          <label for="scan-company">Company (leave blank)</label>
+          <input id="scan-company" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
         <p class="form-error" id="scan-error" role="alert" hidden></p>
         <p class="form-ok" id="scan-ok" role="status" hidden></p>
 
@@ -391,6 +396,10 @@
         <div class="field">
           <label for="interest-email">Email</label>
           <input id="interest-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@company.com">
+        </div>
+        <div class="hp-field" aria-hidden="true">
+          <label for="interest-company">Company (leave blank)</label>
+          <input id="interest-company" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
         </div>
         <button class="btn btn-secondary" type="submit" id="interest-submit">Notify me</button>
         <p class="hint">One email when a rule changes. No sales sequence.</p>
