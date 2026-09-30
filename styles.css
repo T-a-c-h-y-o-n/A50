@@ -253,6 +253,9 @@ li { margin-bottom: 0.45rem; }
 .benefits tbody tr:last-child td { border-bottom: 0; }
 .benefits tbody tr { transition: background-color 0.18s ease; }
 .benefits tbody tr:hover { background: var(--accent-soft); }
+.benefits td.check::before { content: "✓ "; color: #16a34a !important; font-weight: 700; }
+.benefits tbody tr td:first-child { font-weight: 700; }
+.benefits td, .benefits th { white-space: normal; }
 
 /* --- form --- */
 .scan-section { background: var(--accent-soft); border-block: 1px solid var(--line); }
@@ -268,9 +271,13 @@ input[type="url"], input[type="email"] {
 input[type="url"]:focus, input[type="email"]:focus { border-color: var(--accent); outline: 2px solid var(--accent-soft); }
 input[aria-invalid="true"] { border-color: var(--risk-critical); }
 .form-error { color: var(--risk-critical); font-weight: 500; margin: 0; }
-.form-ok { color: var(--accent); font-weight: 600; margin: 0; }
+.form-ok { color: #16a34a; font-weight: 600; margin: 0; }
 .form-inline { grid-template-columns: 1fr auto; align-items: end; }
 .form-inline .hint, .form-inline .form-error, .form-inline .form-ok { grid-column: 1 / -1; }
+.form-compare { border-top: 1px dashed var(--line-strong); padding-top: 16px; margin-top: 2px; }
+.form-compare h3 { margin: 0 0 12px; font-size: 0.95rem; }
+.form-compare .benefits-compare { min-width: 560px; box-shadow: none; }
+.form-compare .benefits-compare th, .form-compare .benefits-compare td { padding: 10px 12px; font-size: 0.88rem; }
 
 /* --- result --- */
 .result { margin-top: 26px; display: grid; gap: 18px; }
@@ -290,6 +297,12 @@ input[aria-invalid="true"] { border-color: var(--risk-critical); }
   padding: 12px 14px; color: var(--ink); font-size: 0.92rem;
 }
 .res-empty { background: var(--surface); border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 20px; }
+.txt-report {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 16px;
+  font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.6;
+  white-space: pre-wrap; overflow-x: auto; margin: 0;
+}
 .res-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .res-generics { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .res-generics li { margin: 0; }

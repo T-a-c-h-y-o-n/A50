@@ -24,63 +24,53 @@
     return fails.filter(function (f) { return f.severity === "critical"; }).length;
   }
 
-  function renderTable(box, findings) {
-    var table = document.createElement("table");
-    var head = document.createElement("tr");
-    ["Rule", "Severity", "Status", "What"].forEach(function (h) {
-      head.appendChild(el("th", null, h));
-    });
-    table.appendChild(head);
-    findings.slice(0, 8).forEach(function (finding) {
-      var row = document.createElement("tr");
-      row.appendChild(el("td", null, finding.rule_id));
-      var sev = el("td", null, "");
-      sev.appendChild(el("span", "pill pill-" + (finding.severity || "low"), finding.severity));
-      row.appendChild(sev);
-      row.appendChild(el("td", null, finding.status));
-      row.appendChild(el("td", null, finding.what_is_missing || finding.title || ""));
-      table.appendChild(row);
-    });
-    box.appendChild(table);
-  }
-
   function showResultBox(data) {
     var box = document.getElementById("scan-result");
     box.hidden = false;
     box.textContent = "";
 
-    var head = el("div", "res-head");
-    head.appendChild(el("h3", null, "Preview result"));
-    box.appendChild(head);
+    var pre = document.createElement("pre");
+    pre.className = "txt-report";
 
-    var target = (data.target && data.target.url) || "";
-    var meta = el("p", "hint");
-    meta.appendChild(document.createTextNode(
-      "Target: " + target + " - Status: " + (data.crawl_status || "") +
-      " - Ruleset: " + (data.ruleset_version || "")
-    ));
-    box.appendChild(meta);
+    var lines = [];
+    lines.push("A50 SCAN - PREVIEW REPORT");
+    lines.push("========================");
+    lines.push("");
+    lines.push("Target: " + ((data.target && data.target.url) || ""));
+    lines.push("Status: " + (data.crawl_status || "") + " - Ruleset: " + (data.ruleset_version || ""));
+    lines.push("");
 
     if (data.crawl_status === "BLOCKED") {
-      box.appendChild(el("div", "res-warning",
-        "Scan blocked: no page content could be observed. See details below."));
+      lines.push("SCAN BLOCKED: no page content could be observed.");
+      lines.push("");
     }
 
     var findings = data.findings || [];
     var fails = findings.filter(function (f) { return f.status === "fail"; });
     var nvs = findings.filter(function (f) { return f.status === "NOT_VERIFIABLE"; });
 
-    var summary = el("p", null, fails.length
-      ? (fails.length + " gap(s) observed, " + criticalCount(fails) +
-         " critical. The full one-page PDF lists every finding with its evidence.")
-      : "No gaps observed in this preview. The full report documents the pages checked.");
-    box.appendChild(summary);
+    if (fails.length) {
+      lines.push("GAPS OBSERVED: " + fails.length + " (" + criticalCount(fails) + " critical)");
+      lines.push("");
+      fails.forEach(function (f) {
+        lines.push(f.rule_id + " [" + f.severity + "] " + f.status);
+        lines.push("  " + (f.what_is_missing || f.title || ""));
+        lines.push("");
+      });
+    } else {
+      lines.push("No gaps observed in this preview.");
+      lines.push("");
+    }
 
-    renderTable(box, findings);
+    if (nvs.length) {
+      lines.push("NOT VERIFIABLE: " + nvs.length + " item(s)");
+      lines.push("");
+    }
 
-    box.appendChild(el("p", "hint",
-      nvs.length + " not-verifiable item(s). Full report: PDF download after checkout (EUR 99 per site)."));
-    box.appendChild(el("p", "fineprint", "This is a sourced checklist, not legal advice."));
+    lines.push("This is a sourced checklist, not legal advice.");
+
+    pre.textContent = lines.join("\n");
+    box.appendChild(pre);
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -236,18 +226,20 @@
           form.reset();
         })
         .catch(function () {
-          fetch(FORMSPREE_SCAN, {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "Accept": "application/json" },
-            body: JSON.stringify({ email: email, message: "A50 rule-change notification signup.", source: "a50-interest" })
-          }).then(function (response) {
-            if (!response.ok) throw new Error("fallback failed");
+          postFormspreeFallback({ email: email, url: "", source: "a50-interest" }).then(function () {
             okBox.textContent = "Saved. We will email you when a rule changes.";
             okBox.hidden = false;
             form.reset();
           }, function () {
-            errorBox.textContent = "Could not save right now. Try again later.";
-            errorBox.hidden = false;
+            try {
+              nativeFormspreeSubmit({ email: email, url: "", source: "a50-interest" });
+              okBox.textContent = "Saved. We will email you when a rule changes.";
+              okBox.hidden = false;
+              form.reset();
+            } catch (e) {
+              errorBox.textContent = "Could not save right now. Try again later.";
+              errorBox.hidden = false;
+            }
           });
         })
         .then(function () {
